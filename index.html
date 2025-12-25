@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shree Samarth Krupa | AI & Automation</title>
+    <link rel="icon" type="image/png" href="fevicon.png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-purple: #8b5cf6;
+            --bg-black: #020202;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-black);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* === 3D BACKGROUND === */
+        #canvas-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            z-index: -1;
+            background: radial-gradient(circle at 30% 30%, #0c0a20 0%, #000000 80%);
+        }
+
+        .light-leak {
+            position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vw;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            filter: blur(80px); z-index: -1; pointer-events: none; mix-blend-mode: screen;
+        }
+
+        /* === TYPOGRAPHY === */
+        h1, h2, h3, .brand-font { font-family: 'Outfit', sans-serif; }
+        
+        .hero-title { font-weight: 400; letter-spacing: -0.03em; }
+        .hero-title em {
+            font-style: italic; font-weight: 700;
+            background: linear-gradient(100deg, #fff 40%, #a5b4fc 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* Giant Watermark */
+        .bg-watermark {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 16vw; font-weight: 900; color: rgba(255, 255, 255, 0.02);
+            white-space: nowrap; z-index: -2; pointer-events: none; font-family: 'Outfit', sans-serif;
+        }
+
+        /* === CARDS & UI === */
+        .bento-card {
+            background: rgba(15, 15, 20, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 20px; padding: 2rem;
+            transition: 0.3s; h-full;
+        }
+        .bento-card:hover { background: rgba(25, 25, 35, 0.8); border-color: rgba(255,255,255,0.2); transform: translateY(-5px); }
+
+        .service-list { margin-top: 15px; }
+        .service-list li {
+            display: flex; align-items: start; gap: 8px; margin-bottom: 8px;
+            font-size: 0.9rem; color: #9ca3af;
+        }
+        .service-list li i { color: var(--primary-purple); margin-top: 4px; font-size: 0.7rem; }
+
+        .client-row {
+            border-bottom: 1px solid rgba(255,255,255,0.1); padding: 2.5rem 0;
+            display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.3s;
+        }
+        .client-row:hover { padding-left: 20px; border-color: var(--primary-purple); }
+        .client-tag { border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; padding: 4px 12px; font-size: 0.75rem; color: #aaa; margin-left: 8px; }
+
+        .minimal-input {
+            width: 100%; background: transparent; border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding: 15px 0; color: white; outline: none; transition: 0.3s;
+        }
+        .minimal-input:focus { border-color: var(--primary-purple); }
+
+        .section-padding { padding: 120px 5%; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem !important; }
+            .hero-footer { flex-direction: column; gap: 30px; text-align: center; }
+            .stats-row { justify-content: center; }
+            .nav-menu { display: none; }
+            .section-padding { padding: 80px 20px; }
+            .bg-watermark { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="light-leak"></div>
+    <div id="canvas-container"></div>
+
+    <!-- NAVBAR -->
+    <nav class="absolute w-full z-50 top-0 px-6 py-6 flex justify-between items-center">
+        <div class="text-xl font-bold tracking-wide brand-font uppercase">
+            Shree Samarth Krupa
+        </div>
+        <div class="nav-menu hidden md:flex gap-12 text-sm font-medium text-gray-300">
+            <a href="#work" class="hover:text-white transition">Work</a>
+            <a href="#services" class="hover:text-white transition">Services</a>
+            <a href="#company" class="hover:text-white transition">Company</a>
+            <a href="#contact" class="hover:text-white transition">Contact</a>
+        </div>
+        <a href="#contact" class="hidden md:inline-flex px-6 py-2 border border-white/20 rounded-full text-sm hover:bg-white hover:text-black transition">
+            Start Project
+        </a>
+    </nav>
+
+    <main>
+        <!-- 1. HERO (Center Object) -->
+        <section id="home" class="h-screen w-full relative flex flex-col justify-center items-center text-center px-4 overflow-hidden">
+            <div class="bg-watermark">AGENCY</div>
+            <div class="relative z-10 max-w-6xl mx-auto mt-[-40px]">
+                <h1 class="hero-title text-5xl md:text-8xl text-white mb-6 leading-[1.1]">
+                    Building <em>Digital<br>Solutions</em> That Matter
+                </h1>
+            </div>
+            <div class="hero-footer absolute bottom-12 w-full max-w-[1400px] px-6 md:px-12 flex justify-between items-end">
+                <div class="text-left max-w-md">
+                    <p class="text-gray-400 text-lg mb-6 leading-relaxed">
+                        We empower organizations with AI that turns complex challenges into real-world outcomes.
+                    </p>
+                    <a href="#contact" class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-8 py-3 rounded-full hover:shadow-lg transition">Start Your Project</a>
+                </div>
+                <div class="stats-row flex gap-12 text-white">
+                    <div class="text-left"><h4 class="text-4xl font-bold font-['Outfit']">50+</h4><p class="text-sm text-gray-400">Projects</p></div>
+                    <div class="text-left"><h4 class="text-4xl font-bold font-['Outfit']">100%</h4><p class="text-sm text-gray-400">Satisfaction</p></div>
+                    <div class="text-left"><h4 class="text-4xl font-bold font-['Outfit']">24/7</h4><p class="text-sm text-gray-400">Support</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. SERVICES (Object Moves LEFT) -->
+        <section id="services" class="section-padding relative z-10">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex justify-between items-end mb-12">
+                    <h2 class="text-5xl font-bold brand-font">Our <span class="text-purple-400">Services</span></h2>
+                    <p class="text-gray-400 hidden md:block">Comprehensive automation suite.</p>
+                </div>
+
+                <!-- 3-Column Grid for Extensive Services -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- 1. WhatsApp -->
+                    <div class="bento-card">
+                        <i class="fa-brands fa-whatsapp text-3xl text-green-400 mb-4"></i>
+                        <h3 class="text-xl font-bold">WhatsApp Automation</h3>
+                        <ul class="service-list">
+                            <li><i class="fa-solid fa-check"></i> Business Setup & API</li>
+                            <li><i class="fa-solid fa-check"></i> Auto Reply & Chatbots</li>
+                            <li><i class="fa-solid fa-check"></i> Lead Collection</li>
+                            <li><i class="fa-solid fa-check"></i> Appointment Booking</li>
+                            <li><i class="fa-solid fa-check"></i> Order & Payment Msgs</li>
+                            <li><i class="fa-solid fa-check"></i> Broadcast Campaigns</li>
+                        </ul>
+                    </div>
+
+                    <!-- 2. AI Chat -->
+                    <div class="bento-card">
+                        <i class="fa-solid fa-robot text-3xl text-yellow-400 mb-4"></i>
+                        <h3 class="text-xl font-bold">AI Chat & Support</h3>
+                        <ul class="service-list">
+                            <li><i class="fa-solid fa-check"></i> Website Chat Support</li>
+                            <li><i class="fa-solid fa-check"></i> AI Chat Assistant</li>
+                            <li><i class="fa-solid fa-check"></i> Customer Support Bot</li>
+                            <li><i class="fa-solid fa-check"></i> Lead Answering Bot</li>
+                            <li><i class="fa-solid fa-check"></i> 24/7 Support System</li>
+                        </ul>
+                    </div>
+
+                    <!-- 3. Voice -->
+                    <div class="bento-card">
+                        <i class="fa-solid fa-phone-volume text-3xl text-blue-400 mb-4"></i>
+                        <h3 class="text-xl font-bold">Voice & Call</h3>
+                        <ul class="service-list">
+                            <li><i class="fa-solid fa-check"></i> Auto Call Answering</li>
+                            <li><i class="fa-solid fa-check"></i> Voice Booking Calls</li>
+                            <li><i class="fa-solid fa-check"></i> Auto Reminder Calls</li>
+                            <li><i class="fa-solid fa-check"></i> Missed Call Callback</li>
+                            <li><i class="fa-solid fa-check"></i> AI Voice Assistant</li>
+                        </ul>
+                    </div>
+
+                    <!-- 4. Business Auto -->
+                    <div class="bento-card">
+                        <i class="fa-solid fa-bolt text-3xl text-purple-400 mb-4"></i>
+                        <h3 class="text-xl font-bold">Business Automation</h3>
+                        <ul class="service-list">
+                            <li><i class="fa-solid fa-check"></i> Email + WhatsApp Sync</li>
+                            <li><i class="fa-solid fa-check"></i> Daily Task Automation</li>
+                            <li><i class="fa-solid fa-check"></i> Sales Process Auto</li>
+                            <li><i class="fa-solid fa-check"></i> CRM Integration</li>
+                        </ul>
+                    </div>
+
+                    <!-- 5. Web & Leads -->
+                    <div class="bento-card">
+                        <i class="fa-solid fa-globe text-3xl text-orange-400 mb-4"></i>
+                        <h3 class="text-xl font-bold">Website & Leads</h3>
+                        <ul class="service-list">
+                            <li><i class="fa-solid fa-check"></i> Simple Business Website</li>
+                            <li><i class="fa-solid fa-check"></i> WhatsApp Click Website</li>
+                            <li><i class="fa-solid fa-check"></i> Lead Collection Page</li>
+                            <li><i class="fa-solid fa-check"></i> Offer Landing Page</li>
+                        </ul>
+                    </div>
+
+                    <!-- 6. Marketing -->
+                    <div class="bento-card">
+                        <i class="fa-solid fa-bullhorn text-3xl text-amber-600 mb-4"></i>
+                        <h3 class="text-xl font-bold">Marketing Support</h3>
+                        <ul class="service-list">
+                            <li><i class="fa-solid fa-check"></i> AI Content Writing</li>
+                            <li><i class="fa-solid fa-check"></i> Marketing Campaigns</li>
+                            <li><i class="fa-solid fa-check"></i> Ad Setup & Mgmt</li>
+                        </ul>
+                    </div>
+
+                     <!-- 7. Support -->
+                     <div class="bento-card md:col-span-2 lg:col-span-3 border-gray-600">
+                        <div class="flex items-center gap-4 mb-2">
+                            <i class="fa-solid fa-gear text-3xl text-gray-400"></i>
+                            <h3 class="text-xl font-bold">Support & Maintenance</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-4 text-sm text-gray-400">
+                            <span class="px-3 py-1 bg-white/5 rounded-full">Monthly Tech Support</span>
+                            <span class="px-3 py-1 bg-white/5 rounded-full">System Monitoring</span>
+                            <span class="px-3 py-1 bg-white/5 rounded-full">Automation Maintenance</span>
+                            <span class="px-3 py-1 bg-white/5 rounded-full">Update & Backup Service</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. WORK SECTION (Object Moves RIGHT) -->
+        <section id="work" class="section-padding relative z-10">
+            <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20">
+                <div class="w-full lg:w-1/2">
+                    <h2 class="text-4xl font-bold mb-12 brand-font">Selected Projects</h2>
+                    
+                    <div class="client-row" onmouseenter="changeVisual('swami')">
+                        <div class="flex items-center gap-6"><span class="text-gray-500 font-mono">01</span><span class="text-2xl font-bold">Swami Renewable</span></div>
+                        <div class="hidden md:flex"><span class="client-tag">Web</span><span class="client-tag">Auto</span></div>
+                    </div>
+                    <div class="client-row" onmouseenter="changeVisual('brand')">
+                        <div class="flex items-center gap-6"><span class="text-gray-500 font-mono">02</span><span class="text-2xl font-bold">Brand Persona</span></div>
+                        <div class="hidden md:flex"><span class="client-tag">Design</span><span class="client-tag">AI</span></div>
+                    </div>
+                    <div class="client-row" onmouseenter="changeVisual('auto')">
+                        <div class="flex items-center gap-6"><span class="text-gray-500 font-mono">03</span><span class="text-2xl font-bold">OWASP Foundation</span></div>
+                        <div class="hidden md:flex"><span class="client-tag">Web</span><span class="client-tag">Security</span></div>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-1/2 sticky top-24 h-fit">
+                    <div id="project-visual" class="w-full aspect-video rounded-2xl border border-white/10 bg-black/50 backdrop-blur-md flex items-center justify-center transition-all duration-500 overflow-hidden relative">
+                        <div class="text-center z-10">
+                            <div class="text-6xl mb-4">⚡</div>
+                            <h3 class="text-2xl font-bold">Swami Renewable</h3>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-green-500/10 to-transparent opacity-50"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. CTA BANNER -->
+        <section class="px-5 relative z-10">
+            <div class="max-w-7xl mx-auto rounded-3xl p-10 md:p-20 relative overflow-hidden" style="background: linear-gradient(90deg, #1e1b4b 0%, #000 100%); border:1px solid rgba(255,255,255,0.1);">
+                <div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
+                    <div>
+                        <h2 class="text-3xl md:text-5xl font-bold mb-2 brand-font">We turn bold ideas into</h2>
+                        <h2 class="text-3xl md:text-5xl font-bold text-purple-400 brand-font">powerful digital realities.</h2>
+                    </div>
+                    <a href="#contact" class="px-8 py-4 bg-white/10 border border-white/20 rounded-full hover:bg-white hover:text-black transition backdrop-blur-md flex items-center gap-3">
+                        Let's work together <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="absolute top-[-50%] left-[20%] w-[50%] h-[200%] bg-purple-600/20 blur-[100px] pointer-events-none transform rotate-45"></div>
+            </div>
+        </section>
+
+        <!-- 5. CONTACT (Object Moves Center) -->
+        <section id="contact" class="section-padding relative z-10">
+            <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20">
+                <div class="w-full lg:w-1/3">
+                    <h2 class="text-7xl md:text-8xl font-bold leading-none brand-font tracking-tighter">LET'S<br>CONNECT</h2>
+                    <p class="mt-8 text-gray-400 text-lg">Use the form to tell us more.</p>
+                </div>
+                <div class="w-full lg:w-2/3">
+                    <form action="mailto:tanishabadgujar1604@gmail.com" method="POST" enctype="text/plain" class="space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div><label class="text-sm text-gray-500 block mb-2">First Name *</label><input type="text" name="firstname" class="minimal-input" placeholder="John" required></div>
+                            <div><label class="text-sm text-gray-500 block mb-2">Last Name *</label><input type="text" name="lastname" class="minimal-input" placeholder="Doe" required></div>
+                        </div>
+                        <div><label class="text-sm text-gray-500 block mb-2">Email *</label><input type="email" name="email" class="minimal-input" placeholder="john@company.com" required></div>
+                        <div><label class="text-sm text-gray-500 block mb-2">Phone *</label><input type="tel" name="phone" class="minimal-input" placeholder="+91 98765 43210"></div>
+                        <div><label class="text-sm text-gray-500 block mb-2">Message *</label><textarea name="message" class="minimal-input" rows="2" placeholder="Tell us more..."></textarea></div>
+                        <button type="submit" class="px-10 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition mt-4">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. FOOTER -->
+        <footer class="border-top border-white/10 pt-20 pb-10 bg-black relative z-10">
+            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="col-span-1">
+                    <h3 class="text-xl font-bold mb-6 brand-font">Shree Samarth<br>Krupa</h3>
+                    <p class="text-sm text-gray-500">Revolutionizing business efficiency through intelligent WhatsApp and AI automation solutions.</p>
+                </div>
+                <div><h4 class="font-bold mb-6">Explore</h4><a href="#home" class="block text-gray-500 hover:text-white mb-2">Home</a><a href="#services" class="block text-gray-500 hover:text-white mb-2">Services</a><a href="#work" class="block text-gray-500 hover:text-white">Work</a></div>
+                <div><h4 class="font-bold mb-6">Legal</h4><a href="#" class="block text-gray-500 hover:text-white mb-2">Privacy</a><a href="#" class="block text-gray-500 hover:text-white">Terms</a></div>
+                <div>
+                    <h4 class="font-bold mb-6">Contact</h4>
+                    <a href="mailto:tanishabadgujar1604@gmail.com" class="block text-gray-500 hover:text-white mb-2">tanishabadgujar1604@gmail.com</a>
+                    <div class="text-gray-500 text-sm mb-1">+91 83789 91351</div>
+                    <div class="text-gray-500 text-sm">+91 78238 15655</div>
+                </div>
+            </div>
+            <div class="text-center text-xs text-gray-700 mt-20">© 2025 Shree Samarth Krupa. All Rights Reserved.</div>
+        </footer>
+
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // === VISUAL CHANGER ===
+        function changeVisual(client) {
+            const visual = document.getElementById('project-visual');
+            visual.style.opacity = '0.7'; visual.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                let html = '';
+                if(client === 'swami') html = `<div class="text-center z-10"><div class="text-6xl mb-4">⚡</div><h3 class="text-2xl font-bold">Swami Renewable</h3></div><div class="absolute inset-0 bg-gradient-to-tr from-green-600/20 to-transparent opacity-50"></div>`;
+                else if(client === 'brand') html = `<div class="text-center z-10"><div class="text-6xl mb-4">🎨</div><h3 class="text-2xl font-bold">Brand Persona</h3></div><div class="absolute inset-0 bg-gradient-to-tr from-purple-600/20 to-transparent opacity-50"></div>`;
+                else html = `<div class="text-center z-10"><div class="text-6xl mb-4">🛡️</div><h3 class="text-2xl font-bold">OWASP</h3></div><div class="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent opacity-50"></div>`;
+                visual.innerHTML = html; visual.style.opacity = '1'; visual.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        // === THREE.JS ===
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x000000, 0.035);
+        
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 6; 
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        function getGlowTexture() {
+            const canvas = document.createElement('canvas'); canvas.width=32; canvas.height=32;
+            const ctx = canvas.getContext('2d');
+            const g = ctx.createRadialGradient(16,16,0,16,16,16);
+            g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(0.3,'rgba(100, 150, 255, 0.5)'); g.addColorStop(1,'rgba(0,0,0,0)');
+            ctx.fillStyle = g; ctx.fillRect(0,0,32,32);
+            const t = new THREE.Texture(canvas); t.needsUpdate = true; return t;
+        }
+
+        const count = 4000;
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(count*3);
+        const targetPositions = new Float32Array(count*3);
+        const colors = new Float32Array(count*3);
+
+        for(let i=0; i<count*3; i++) {
+            positions[i] = (Math.random()-0.5)*20; targetPositions[i]=positions[i]; colors[i]=1;
+        }
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const material = new THREE.PointsMaterial({
+            size: 0.1, map: getGlowTexture(), vertexColors: true, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.8
+        });
+        const particles = new THREE.Points(geometry, material);
+        scene.add(particles);
+
+        // SHAPES
+        function getSphere(i) {
+            const phi = Math.acos(-1+(2*i)/count); const theta = Math.sqrt(count*Math.PI)*phi;
+            const r = 3.0; const f = Math.random()*0.1;
+            return { x:(r+f)*Math.cos(theta)*Math.sin(phi), y:(r+f)*Math.sin(theta)*Math.sin(phi), z:(r+f)*Math.cos(phi) };
+        }
+        function getDNA(i) {
+            const idx=i%2000; const t=(idx/2000)*Math.PI*8; const s=i>count/2?Math.PI:0;
+            return { x: 1.5*Math.cos(t+s), y: (idx/2000)*12-6, z: 1.5*Math.sin(t+s) };
+        }
+        function getTorus(i) {
+            const t = (i/count)*Math.PI*2*5; const p=2; const q=3;
+            return { x: (2+Math.cos(q*t))*Math.cos(p*t), y: (2+Math.cos(q*t))*Math.sin(p*t), z: Math.sin(q*t) };
+        }
+        function getGalaxy(i) {
+            const a=i*0.05; const r=0.2+i*0.001;
+            return { x:(r*Math.cos(a*3))*5, y:(Math.random()-0.5), z:(r*Math.sin(a*3))*5 };
+        }
+
+        // ANIMATION LOGIC
+        let isMobile = window.innerWidth < 768;
+        function transform(shape, xPos, colorHex) {
+            const c = new THREE.Color(colorHex);
+            // On mobile, keep it center (0). On desktop, use the requested shift.
+            const tX = isMobile ? 0 : xPos;
+            
+            for(let i=0; i<count; i++) {
+                let p;
+                if(shape==='sphere') p=getSphere(i);
+                else if(shape==='dna') p=getDNA(i);
+                else if(shape==='torus') p=getTorus(i);
+                else p=getGalaxy(i);
+                
+                targetPositions[i*3] = p.x; targetPositions[i*3+1] = p.y; targetPositions[i*3+2] = p.z;
+                gsap.to(geometry.attributes.color.array, { [i*3]:c.r, [i*3+1]:c.g, [i*3+2]:c.b, duration: 1.5 });
+            }
+            geometry.attributes.color.needsUpdate = true;
+            gsap.to(particles.position, { x: tX, duration: 2.5, ease: "power2.inOut" });
+        }
+
+        // INIT: Sphere Center
+        transform('sphere', 0, 0xdbeafe); 
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. Services -> LEFT (-3.5) with DNA
+        ScrollTrigger.create({ trigger:"#services", start:"top center", end:"bottom center", onEnter:()=>transform('dna', -3.5, 0xc084fc), onLeaveBack:()=>transform('sphere', 0, 0xdbeafe) });
+
+        // 2. Work -> RIGHT (3.5) with Torus (Specific request)
+        ScrollTrigger.create({ trigger:"#work", start:"top center", end:"bottom center", onEnter:()=>transform('torus', 3.5, 0x22d3ee), onLeaveBack:()=>transform('dna', -3.5, 0xc084fc) });
+
+        // 3. Contact -> CENTER (0) with Galaxy
+        ScrollTrigger.create({ trigger:"#contact", start:"top center", onEnter:()=>transform('galaxy', 0, 0xffffff), onLeaveBack:()=>transform('torus', 3.5, 0x22d3ee) });
+
+        // LOOP
+        let mouseX=0, mouseY=0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+            const pos = geometry.attributes.position.array;
+            
+            for(let i=0; i<count; i++) {
+                const ix = i*3; const iy = i*3+1; const iz = i*3+2;
+                const px = pos[ix] + particles.position.x; const py = pos[iy];
+                
+                let vx = (targetPositions[ix] - pos[ix]) * 0.08;
+                let vy = (targetPositions[iy] - pos[iy]) * 0.08;
+                let vz = (targetPositions[iz] - pos[iz]) * 0.08;
+
+                const mx = mouseX * 8; const my = mouseY * 5;
+                const dx = px - mx; const dy = py - my; const dist = Math.sqrt(dx*dx + dy*dy);
+                if(dist < 2.0) {
+                    const f = (2.0 - dist) * 2.0;
+                    vx += (dx/dist)*f*0.05; vy += (dy/dist)*f*0.05;
+                }
+                pos[ix] += vx; pos[iy] += vy; pos[iz] += vz;
+            }
+            geometry.attributes.position.needsUpdate = true;
+            particles.rotation.y = time * 0.1;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
