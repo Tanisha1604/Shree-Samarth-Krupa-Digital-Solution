@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shree Samarth Krupa Digital Solutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        /* A4 Poster Container */
+        .a4-poster {
+            width: 210mm;
+            height: 297mm;
+            background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header Section */
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a2530 100%);
+            color: white;
+            padding: 35px 45px 30px;
+            position: relative;
+            border-bottom: 5px solid #3498db;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo-circle {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 3px solid #3498db;
+            overflow: hidden;
+        }
+        
+        .logo-text {
+            font-family: 'Arial', sans-serif;
+            font-size: 26px;
+            font-weight: 900;
+            color: #2c3e50;
+            letter-spacing: 1px;
+        }
+        
+        .agency-name {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            line-height: 1.1;
+            color: #ffffff;
+        }
+        
+        .agency-subtitle {
+            font-size: 20px;
+            color: #3498db;
+            font-weight: 600;
+            margin-top: 8px;
+            letter-spacing: 1px;
+        }
+        
+        .tagline {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tagline-text {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ecf0f1;
+            letter-spacing: 1px;
+        }
+        
+        .highlight {
+            color: #3498db;
+            font-weight: 700;
+        }
+        
+        /* Content Section */
+        .content {
+            padding: 30px 45px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            height: calc(100% - 280px);
+        }
+        
+        .services-column {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #e74c3c;
+        }
+        
+        .service-category {
+            margin-bottom: 25px;
+        }
+        
+        .category-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .category-title i {
+            margin-right: 10px;
+            color: #3498db;
+            font-size: 20px;
+        }
+        
+        .service-list {
+            list-style-type: none;
+        }
+        
+        .service-item {
+            padding: 10px 0;
+            font-size: 15px;
+            color: #34495e;
+            font-weight: 500;
+            padding-left: 30px;
+            position: relative;
+            border-left: 2px solid #ecf0f1;
+            margin-bottom: 5px;
+            transition: all 0.2s;
+        }
+        
+        .service-item::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .service-item:hover {
+            border-left-color: #3498db;
+            padding-left: 35px;
+            color: #2c3e50;
+        }
+        
+        /* Right Column - Featured Services */
+        .featured-services {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border: 2px solid #ecf0f1;
+        }
+        
+        .featured-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .highlight-box {
+            background: white;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #3498db;
+        }
+        
+        .highlight-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .highlight-title i {
+            margin-right: 10px;
+            color: #e74c3c;
+        }
+        
+        .highlight-list {
+            list-style-type: none;
+        }
+        
+        .highlight-item {
+            padding: 8px 0;
+            color: #34495e;
+            font-size: 14.5px;
+            border-bottom: 1px dashed #ecf0f1;
+        }
+        
+        .highlight-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Footer Section */
+        .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #2c3e50;
+            color: white;
+            padding: 25px 45px;
+            border-top: 5px solid #3498db;
+        }
+        
+        .cta-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .website-info {
+            flex: 1;
+        }
+        
+        .website-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ecf0f1;
+        }
+        
+        .website-url {
+            font-size: 20px;
+            font-weight: 700;
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .website-url:hover {
+            text-decoration: underline;
+        }
+        
+        .contact-button {
+            background: #e74c3c;
+            color: white;
+            padding: 14px 35px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .contact-button:hover {
+            background: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        /* Print optimization */
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            
+            .a4-poster {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            .contact-button {
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            }
+        }
+        
+        /* Responsive scaling */
+        @media (max-width: 220mm) {
+            .a4-poster {
+                transform: scale(0.95);
+            }
+        }
+        
+        @media (max-width: 190mm) {
+            .a4-poster {
+                transform: scale(0.85);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="a4-poster">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo-circle">
+                    <img src="logo.png" alt="Logo" style="width: 90%; height: 90%; border-radius: 50%; object-fit: cover;">
+                </div>
+                <div>
+                    <div class="agency-name">SHREE SAMARTH KRUPA</div>
+                    <div class="agency-subtitle">DIGITAL SOLUTIONS</div>
+                </div>
+            </div>
+            
+            <div class="tagline">
+                <div class="tagline-text">Complete <span class="highlight">WhatsApp Automation</span> & <span class="highlight">Business Solutions</span></div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Left Column - All Services -->
+            <div class="services-column">
+                <div class="section-title">OUR DIGITAL SOLUTIONS</div>
+                
+                <!-- WhatsApp Services -->
+                <div class="service-category">
+                    <div class="category-title"><i class="fab fa-whatsapp"></i> WHATSAPP SERVICES</div>
+                    <ul class="service-list">
+                        <li class="service-item">WhatsApp Auto Reply</li>
+                        <li class="service-item">WhatsApp Business Setup</li>
+                        <li class="service-item">WhatsApp Lead Collection</li>
+                        <li class="service-item">WhatsApp Appointment Booking</li>
+                        <li class="service-item">WhatsApp Order & Payment Messages</li>
+                        <li class="service-item">WhatsApp Follow-up Messages</li>
+                        <li class="service-item">WhatsApp Broadcast Campaigns</li>
+                        <li class="service-item">WhatsApp Chatbot</li>
+                    </ul>
+                </div>
+                
+                <!-- AI & Automation Services -->
+                <div class="service-category">
+                    <div class="category-title"><i class="fas fa-brain"></i> AI & AUTOMATION</div>
+                    <ul class="service-list">
+                        <li class="service-item">AI Chat Assistant</li>
+                        <li class="service-item">Customer Support Bot</li>
+                        <li class="service-item">Email + WhatsApp Automation</li>
+                        <li class="service-item">Sales Process Automation</li>
+                        <li class="service-item">Daily Task Automation</li>
+                    </ul>
+                </div>
+                
+                <!-- Voice Services -->
+                <div class="service-category">
+                    <div class="category-title"><i class="fas fa-phone-alt"></i> VOICE SERVICES</div>
+                    <ul class="service-list">
+                        <li class="service-item">Auto Call Answering</li>
+                        <li class="service-item">Voice Booking Calls</li>
+                        <li class="service-item">Auto Reminder Calls</li>
+                        <li class="service-item">Missed Call Callback System</li>
+                        <li class="service-item">AI Voice Assistant</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Right Column - Featured Services -->
+            <div class="services-column">
+                <div class="featured-services">
+                    <div class="featured-title">FEATURED SOLUTIONS</div>
+                    
+                    <!-- Communication Services -->
+                    <div class="highlight-box">
+                        <div class="highlight-title"><i class="fas fa-comments"></i> COMMUNICATION SOLUTIONS</div>
+                        <ul class="highlight-list">
+                            <li class="highlight-item">Website Chat Support</li>
+                            <li class="highlight-item">24/7 Chat Support</li>
+                            <li class="highlight-item">Lead Answering Bot</li>
+                            <li class="highlight-item">AI Content Writing</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Website & Lead Services -->
+                    <div class="highlight-box">
+                        <div class="highlight-title"><i class="fas fa-globe"></i> website creation</div>
+                        <ul class="highlight-list">
+                            <li class="highlight-item">Simple Business Website</li>
+                            <li class="highlight-item">Offer Landing Page</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Voice & Call Services -->
+                    <div class="highlight-box">
+                        <div class="highlight-title"><i class="fas fa-phone-alt"></i> VOICE & CALL SERVICES</div>
+                        <ul class="highlight-list">
+                            <li class="highlight-item">Auto Call Answering</li>
+                            <li class="highlight-item">Voice Booking Calls</li>
+                            <li class="highlight-item">Auto Reminder Calls</li>
+                            <li class="highlight-item">Missed Call Callback System</li>
+                            <li class="highlight-item">AI Voice Assistant</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer Section -->
+        <div class="footer">
+            <div class="cta-section">
+                <div class="website-info">
+                    <div class="website-title">Visit Our Website For Complete Digital Solutions</div>
+                    <a href="https://shreesamarthkrupadigitalsolution.vercel.app/" class="website-url" target="_blank">
+                        shreesamarthkrupadigitalsolution.vercel.app
+                    </a>
+                </div>
+                
+                <a href="https://shreesamarthkrupadigitalsolution.vercel.app/" class="contact-button" target="_blank">
+                    GET STARTED NOW
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Simple hover effect enhancement
+        document.addEventListener('DOMContentLoaded', function() {
+            const serviceItems = document.querySelectorAll('.service-item');
+            
+            serviceItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    const category = this.closest('.service-category');
+                    const icon = category.querySelector('i');
+                    if (icon) {
+                        this.style.borderLeftColor = getComputedStyle(icon).color;
+                    }
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.borderLeftColor = '#ecf0f1';
+                });
+            });
+            
+            // Add subtle animation to CTA button
+            const ctaButton = document.querySelector('.contact-button');
+            
+            setInterval(() => {
+                ctaButton.style.boxShadow = 
+                    `0 5px 15px rgba(231, 76, 60, ${0.2 + Math.random() * 0.1})`;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
